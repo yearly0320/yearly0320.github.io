@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2017年1月 - 时光日记</title>
+  <style>
+    /* 基础重置与全局样式 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    
+    :root {
+      --primary: #4a6fa5;
+      --secondary: #c8d8e4;
+      --accent: #f2b880;
+      --dark: #2c3e50;
+      --light: #f8f9fa;
+      --shadow: 0 8px 24px rgba(0,0,0,0.08);
+      --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+    body {
+      background: linear-gradient(135deg, #e8f4f8 0%, #f0f8fb 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      padding: 40px 20px;
+      overflow-x: hidden;
+    }
+    
+    /* 页面头部 */
+    .header {
+      max-width: 1000px;
+      margin: 0 auto 50px;
+      text-align: center;
+      position: relative;
+      padding: 20px 0;
+    }
+    
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 3px;
+    }
+    
+    .main-title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    
+    .sub-title {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--dark);
+      opacity: 0.8;
+      font-weight: 400;
+    }
+    
+    /* 核心容器：日历+图片融合布局 */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* 日历容器 */
+    .calendar-wrapper {
+      background: var(--light);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: inset 0 2px 10px rgba(0,0,0,0.03);
+      position: relative;
+      z-index: 2;
+    }
+    
+    /* 日历头部（星期栏） */
+    .calendar-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+    
+    .week-day {
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 0.9rem;
+      padding: 8px 0;
+      border-radius: 8px;
+      background: rgba(74, 111, 165, 0.08);
+    }
+    
+    /* 日历网格（日期） */
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+    
+    /* 日期单元格 */
+    .date-cell {
+      aspect-ratio: 1/1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--dark);
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    
+    /* 空单元格（非1月日期） */
+    .empty-cell {
+      background: transparent;
+      box-shadow: none;
+      cursor: default;
+    }
+    
+    /* 有日记的日期标记 */
+    .has-diary::after {
+      content: '';
+      position: absolute;
+      bottom: 6px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    
+    /* 悬停特效 */
+    .date-cell:not(.empty-cell):hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 8px 16px rgba(74, 111, 165, 0.15);
+      background: var(--primary);
+      color: white;
+    }
+    
+    .date-cell:not(.empty-cell):hover::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+      z-index: 1;
+    }
+    
+    /* 当前日期高亮 */
+    .current-date {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(74, 111, 165, 0.2);
+    }
+    
+    /* 图片容器：美学级展示 */
+    .image-wrapper {
+      position: relative;
+      height: 500px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      z-index: 1;
+    }
+    
+    .diary-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+      filter: brightness(0.95) contrast(1.05);
+    }
+    
+    .image-wrapper:hover .diary-image {
+      transform: scale(1.05);
+      filter: brightness(1) contrast(1.1);
+    }
+    
+    /* 图片文字叠加层 */
+    .image-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 30px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      color: white;
+    }
+    
+    .overlay-title {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .overlay-desc {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+    
+    /* 装饰元素：增加设计感 */
+    .decor-1 {
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: var(--accent);
+      opacity: 0.1;
+      border-radius: 50%;
+      z-index: 0;
+    }
+    
+    .decor-2 {
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 250px;
+      height: 250px;
+      background: var(--primary);
+      opacity: 0.08;
+      border-radius: 50%;
+      z-index: 0;
+    }
+    
+    /* 响应式适配 */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 20px;
+      }
+      
+      .calendar-wrapper {
+        padding: 20px;
+      }
+      
+      .image-wrapper {
+        height: 300px;
+      }
+      
+      .container {
+        border-radius: 16px;
+      }
+    }
+    
+    /* 底部说明 */
+    .footer-note {
+      max-width: 1000px;
+      margin: 30px auto 0;
+      text-align: center;
+      color: var(--dark);
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- 页面头部 -->
+  <div class="header">
+    <h1 class="main-title">2017 · 壹月</h1>
+    <p class="sub-title">时光日记 | 每一个日期，都是一段故事</p>
+  </div>
+
+  <!-- 核心容器 -->
+  <div class="container">
+    <!-- 装饰元素 -->
+    <div class="decor-1"></div>
+    <div class="decor-2"></div>
+    
+    <!-- 日历区域 -->
+    <div class="calendar-wrapper">
+      <!-- 星期栏 -->
+      <div class="calendar-header">
+        <div class="week-day">日</div>
+        <div class="week-day">一</div>
+        <div class="week-day">二</div>
+        <div class="week-day">三</div>
+        <div class="week-day">四</div>
+        <div class="week-day">五</div>
+        <div class="week-day">六</div>
+      </div>
+      
+      <!-- 日期网格（2017年1月：1日是周日） -->
+      <div class="calendar-grid">
+        <!-- 第一行：1-7日 -->
+        <a href="diary_20170101.html" class="date-cell has-diary">1</a>
+        <a href="diary_20170102.html" class="date-cell">2</a>
+        <a href="diary_20170103.html" class="date-cell">3</a>
+        <a href="diary_20170104.html" class="date-cell has-diary">4</a>
+        <a href="diary_20170105.html" class="date-cell">5</a>
+        <a href="diary_20170106.html" class="date-cell">6</a>
+        <a href="diary_20170107.html" class="date-cell">7</a>
+        
+        <!-- 第二行：8-14日 -->
+        <a href="diary_20170108.html" class="date-cell">8</a>
+        <a href="diary_20170109.html" class="date-cell has-diary">9</a>
+        <a href="diary_20170110.html" class="date-cell">10</a>
+        <a href="diary_20170111.html" class="date-cell">11</a>
+        <a href="diary_20170112.html" class="date-cell">12</a>
+        <a href="diary_20170113.html" class="date-cell has-diary">13</a>
+        <a href="diary_20170114.html" class="date-cell">14</a>
+        
+        <!-- 第三行：15-21日 -->
+        <a href="diary_20170115.html" class="date-cell">15</a>
+        <a href="diary_20170116.html" class="date-cell">16</a>
+        <a href="diary_20170117.html" class="date-cell has-diary">17</a>
+        <a href="diary_20170118.html" class="date-cell">18</a>
+        <a href="diary_20170119.html" class="date-cell">19</a>
+        <a href="diary_20170120.html" class="date-cell">20</a>
+        <a href="diary_20170121.html" class="date-cell has-diary">21</a>
+        
+        <!-- 第四行：22-28日 -->
+        <a href="diary_20170122.html" class="date-cell">22</a>
+        <a href="diary_20170123.html" class="date-cell">23</a>
+        <a href="diary_20170124.html" class="date-cell">24</a>
+        <a href="diary_20170125.html" class="date-cell has-diary">25</a>
+        <a href="diary_20170126.html" class="date-cell">26</a>
+        <a href="diary_20170127.html" class="date-cell">27</a>
+        <a href="diary_20170128.html" class="date-cell">28</a>
+        
+        <!-- 第五行：29-31日 + 空单元格 -->
+        <a href="diary_20170129.html" class="date-cell has-diary">29</a>
+        <a href="diary_20170130.html" class="date-cell">30</a>
+        <a href="diary_20170131.html" class="date-cell">31</a>
+        <div class="date-cell empty-cell"></div>
+        <div class="date-cell empty-cell"></div>
+        <div class="date-cell empty-cell"></div>
+        <div class="date-cell empty-cell"></div>
+      </div>
+    </div>
+    
+    <!-- 图片展示区域 -->
+    <div class="image-wrapper">
+      <img src="https://picsum.photos/id/1005/1000/800" alt="2017年1月的记忆" class="diary-image">
+      <div class="image-overlay">
+        <h3 class="overlay-title">冬日的温柔</h3>
+        <p class="overlay-desc">2017年的第一个月，雪落无声，日子缓慢又温柔。点击日历上的日期，翻阅那些藏在时光里的小美好。</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 底部说明 -->
+  <div class="footer-note">
+    标注「●」的日期有日记内容 | 点击日期即可查看当日记录
+  </div>
+</body>
+</html>
