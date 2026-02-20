@@ -17,66 +17,134 @@
       line-height: 1.7;
       min-height: 100vh;
       overflow-x: hidden;
+      position: relative;
+    }
+    /* 背景装饰图片 - 低透明度不干扰主体内容 */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      width: 300px;
+      height: 300px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      opacity: 0.08;
+      z-index: 0;
+      pointer-events: none;
+    }
+    body::before {
+      top: 10%;
+      left: 5%;
+      background-image: url('https://picsum.photos/id/1008/600/600'); /* 自然风景 */
+    }
+    body::after {
+      bottom: 10%;
+      right: 5%;
+      background-image: url('https://picsum.photos/id/1074/600/600'); /* 文艺氛围 */
     }
     .container {
       max-width: 800px;
       margin: 0 auto;
       padding: 80px 20px;
       text-align: center;
-      /* 页面载入时的淡入效果 */
       animation: fadeIn 1s ease-out;
+      position: relative;
+      z-index: 1; /* 确保内容在背景图片上方 */
+    }
+    /* 头像/主视觉图片 */
+    .avatar {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      margin: 0 auto 30px;
+      overflow: hidden;
+      border: 5px solid rgba(255, 255, 255, 0.8);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+      transition: transform 0.5s ease;
+    }
+    .avatar:hover {
+      transform: rotate(5deg) scale(1.05);
+    }
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
     h1 {
       font-size: clamp(2.2rem, 5vw, 3.5rem);
       margin-bottom: 15px;
       color: #2d3748;
-      /* 文字渐变效果 */
       background: linear-gradient(90deg, #4299e1, #38b2ac);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      /* 文字轻微浮动动画 */
       animation: float 3s ease-in-out infinite;
     }
     .subtitle {
       color: #718096;
       font-size: clamp(1rem, 2vw, 1.2rem);
-      margin-bottom: 60px;
-      /* 文字间距增加可读性 */
+      margin-bottom: 40px;
       letter-spacing: 0.5px;
+    }
+    /* 简短的个人介绍 */
+    .intro {
+      max-width: 600px;
+      margin: 0 auto 50px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      color: #4a5568;
+      line-height: 1.8;
     }
     .nav-links {
       display: flex;
       flex-wrap: wrap;
       gap: 25px;
       justify-content: center;
-      /* 导航栏轻微上浮，增加层次感 */
-      transform: translateY(-5px);
+      margin-bottom: 60px;
     }
     .nav-links a {
-      display: inline-block;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
       padding: 15px 35px;
       background: rgba(255, 255, 255, 0.95);
       color: #2d3748;
       text-decoration: none;
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-      /* 过渡效果让所有变化更丝滑 */
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      /* 字体优化 */
       font-weight: 500;
       font-size: 1rem;
-      /* 位置偏移修正 */
       position: relative;
       overflow: hidden;
     }
-    /* 鼠标悬停特效 */
+    /* 导航按钮图标 */
+    .nav-links a::before {
+      content: '';
+      width: 24px;
+      height: 24px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .nav-links a[href="prose.html"]::before {
+      background-image: url('https://picsum.photos/id/24/48/48'); /* 散文-书籍风格 */
+    }
+    .nav-links a[href="diary.html"]::before {
+      background-image: url('https://picsum.photos/id/42/48/48'); /* 日记-时光风格 */
+    }
+    .nav-links a[href="game.html"]::before {
+      background-image: url('https://picsum.photos/id/96/48/48'); /* 游戏-趣味风格 */
+    }
+    .nav-links a[href="music.html"]::before {
+      background-image: url('https://picsum.photos/id/119/48/48'); /* 音乐-旋律风格 */
+    }
     .nav-links a:hover {
       transform: translateY(-6px) scale(1.05);
       box-shadow: 0 8px 25px rgba(66, 153, 225, 0.2);
       color: #4299e1;
     }
-    /* 按钮点击波纹效果 */
     .nav-links a::after {
       content: '';
       position: absolute;
@@ -94,7 +162,30 @@
       height: 300px;
       opacity: 0;
     }
-    /* 页面载入淡入动画 */
+    /* 底部装饰图片墙 */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+    .gallery-item {
+      height: 100px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .gallery-item:hover {
+      transform: scale(1.1);
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -105,7 +196,6 @@
         transform: translateY(0);
       }
     }
-    /* 标题浮动动画 */
     @keyframes float {
       0%, 100% {
         transform: translateY(0);
@@ -114,7 +204,6 @@
         transform: translateY(-8px);
       }
     }
-    /* 响应式优化 */
     @media (max-width: 600px) {
       .nav-links {
         gap: 15px;
@@ -124,19 +213,49 @@
         width: 100%;
         max-width: 200px;
       }
+      .gallery {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
+    <!-- 头像/主视觉图片 -->
+    <div class="avatar">
+      <img src="https://tse1.mm.bing.net/th/id/OIP.-RBuUajus_Qp97t8OevSlwHaHa?rs=1&pid=ImgDetMain&o=7&rm=3" alt="个人头像">
+    </div>
+    
     <h1>烨烨的个人小站</h1>
     <p class="subtitle">欢迎来到我的个人空间 🎉</p>
 
+    <!-- 个人介绍文本 -->
+    <div class="intro">
+      这里是烨烨的小小世界，记录生活中的美好瞬间，分享喜欢的散文、日常的心情日记、好玩的游戏和治愈的音乐。愿每一个来访的你，都能在这里找到片刻的温柔与欢喜。
+    </div>
+
+    <!-- 导航链接 -->
     <div class="nav-links">
       <a href="prose.html">散文</a>
       <a href="diary.html">少年日记</a>
       <a href="game.html">游戏</a>
       <a href="music.html">音乐</a>
+    </div>
+
+    <!-- 底部图片墙 -->
+    <div class="gallery">
+      <div class="gallery-item">
+        <img src="https://picsum.photos/id/10/200/200" alt="装饰图片1">
+      </div>
+      <div class="gallery-item">
+        <img src="https://picsum.photos/id/28/200/200" alt="装饰图片2">
+      </div>
+      <div class="gallery-item">
+        <img src="https://picsum.photos/id/49/200/200" alt="装饰图片3">
+      </div>
+      <div class="gallery-item">
+        <img src="https://picsum.photos/id/65/200/200" alt="装饰图片4">
+      </div>
     </div>
   </div>
 </body>
