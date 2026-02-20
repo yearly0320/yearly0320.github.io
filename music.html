@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>散文 - 烨烨的个人小站</title>
+  <style>
+    /* 复用主页面的基础样式，保证风格统一 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #f0f4f8 0%, #e8f1f8 100%);
+      color: #333;
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    /* 头部导航栏 - 包含返回首页按钮 */
+    .header {
+      max-width: 800px;
+      margin: 0 auto 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .back-home {
+      padding: 10px 25px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #4299e1;
+      text-decoration: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    .back-home:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(66, 153, 225, 0.15);
+    }
+    .page-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      background: linear-gradient(90deg, #4299e1, #38b2ac);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    /* 内容容器 */
+    .content-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      animation: fadeIn 0.8s ease-out;
+    }
+    /* 散文内容样式 */
+    .prose-item {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .prose-title {
+      font-size: 1.5rem;
+      color: #2d3748;
+      margin-bottom: 15px;
+    }
+    .prose-content {
+      color: #4a5568;
+      line-height: 1.8;
+      text-align: justify;
+    }
+    .prose-meta {
+      color: #718096;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+    /* 通用动画 */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* 响应式适配 */
+    @media (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+      .content-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 头部导航 -->
+  <div class="header">
+    <a href="index.html" class="back-home">← 返回首页</a>
+    <h1 class="page-title">散文</h1>
+  </div>
+
+ <div class="content-container">
+  <!-- 音乐清单 -->
+  <div class="music-item">
+    <h2 class="music-title">《起风了》- 买辣椒也用券</h2>
+    <div class="music-content">
+      歌词写得特别好："从前初识这世间，万般流连，看着天边似在眼前，也甘愿赴汤蹈火去走它一遍。"
+      每次听这首歌，都能想起自己的青春时光，有遗憾，也有勇敢。
+    </div>
+    <div class="music-meta">推荐理由：治愈、有故事感</div>
+  </div>
+</div>
+  </div>
+</body>
+</html>
