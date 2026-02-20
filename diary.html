@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>少年日记 - 烨烨的个人小站</title>
   <style>
-    /* 基础样式复用主页面风格 */
+    /* 基础样式重置 */
     * {
       margin: 0;
       padding: 0;
@@ -15,13 +15,13 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       background: linear-gradient(135deg, #f0f4f8 0%, #e8f1f8 100%);
       color: #333;
-      line-height: 1.7;
+      line-height: 1.8;
       min-height: 100vh;
       padding: 40px 20px;
     }
     /* 头部导航 */
     .header {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto 60px;
       display: flex;
       justify-content: space-between;
@@ -50,112 +50,145 @@
     }
     /* 时间轴容器 */
     .timeline-container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 0 auto;
       background: rgba(255, 255, 255, 0.85);
       border-radius: 16px;
-      padding: 40px;
+      padding: 60px 80px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.08);
       animation: fadeIn 0.8s ease-out;
     }
-    /* 时间轴核心样式 */
+    /* 时间轴核心布局 - 三列布局 */
     .timeline {
       position: relative;
-      padding-left: 60px;
+      display: grid;
+      grid-template-columns: 80px 80px 1fr;
+      gap: 20px;
+      align-items: start;
     }
-    /* 时间轴竖线 */
-    .timeline::before {
+    /* 年份分组 - 关键修改：竖线放在年份组内，只覆盖本组内容 */
+    .year-group {
+      grid-column: 1 / -1;
+      margin-bottom: 40px;
+      position: relative;
+    }
+    /* 每组单独的竖线（替代全局竖线）- 长度匹配本组日记高度 */
+    .year-group::before {
       content: '';
       position: absolute;
-      left: 20px;
-      top: 0;
-      bottom: 0;
+      left: 120px; /* 和之前全局竖线位置一致 */
+      top: 40px; /* 从年份下方开始 */
+      bottom: 10px; /* 到本组最后一个条目下方结束 */
       width: 2px;
       background: #e2e8f0;
+      z-index: 0;
     }
-    /* 年份分组 */
-    .year-group {
-      margin-bottom: 40px;
-    }
+    /* 年份标签 */
     .year-label {
-      position: absolute;
-      left: -40px;
-      font-weight: 600;
-      color: #718096;
-      width: 80px;
+      grid-column: 1 / 2;
+      font-weight: 700;
+      color: #2d3748;
+      font-size: 1.3rem;
+      padding-top: 5px;
       text-align: right;
-      padding-right: 10px;
+      position: sticky;
+      top: 0;
     }
-    /* 日记条目 */
-    .diary-item {
-      position: relative;
-      margin-bottom: 25px;
-      padding-bottom: 10px;
-    }
-    /* 时间点圆点 */
-    .diary-item::before {
-      content: '';
-      position: absolute;
-      left: -46px;
-      top: 4px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #4299e1;
-      box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.1);
+    /* 日记条目容器 */
+    .diary-item-wrapper {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 80px 80px 1fr;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 30px;
+      min-height: 60px;
     }
     /* 日期标签 */
     .date-label {
-      position: absolute;
-      left: -40px;
-      top: 0;
-      font-size: 0.9rem;
-      color: #94a3b8;
-      width: 80px;
+      grid-column: 2 / 3;
+      font-size: 1rem;
+      color: #718096;
       text-align: right;
       padding-right: 10px;
+      font-weight: 400;
+    }
+    /* 时间点圆点 */
+    .diary-dot {
+      position: absolute;
+      left: 114px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #4299e1;
+      box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.1);
+      z-index: 1;
     }
     /* 日记标题链接 */
     .diary-title {
+      grid-column: 3 / 4;
       color: #4299e1;
       text-decoration: none;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
+      padding: 8px 0;
       transition: all 0.2s ease;
     }
     .diary-title:hover {
       color: #2563eb;
       text-decoration: underline;
+      padding-left: 5px;
     }
     /* 分页样式 */
     .pagination {
-      margin-top: 50px;
+      grid-column: 1 / -1;
+      margin-top: 80px;
       text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
     .pagination a, .pagination span {
-      display: inline-block;
-      padding: 8px 15px;
-      margin: 0 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 18px;
       background: rgba(255, 255, 255, 0.9);
-      border-radius: 6px;
+      border-radius: 8px;
       color: #4a5568;
       text-decoration: none;
       transition: all 0.2s ease;
+      min-width: 45px;
+      height: 45px;
+      font-size: 1rem;
     }
     .pagination a:hover {
       background: #4299e1;
       color: white;
+      transform: translateY(-2px);
     }
     .pagination .current {
       background: #4299e1;
       color: white;
+      font-weight: 600;
+    }
+    .pagination .next-page {
+      background: #4299e1;
+      color: white;
+      min-width: 110px;
+    }
+    .pagination .next-page:hover {
+      background: #2563eb;
     }
     /* 页脚统计信息 */
     .footer-stats {
-      max-width: 900px;
-      margin: 30px auto 0;
+      max-width: 1000px;
+      margin: 40px auto 0;
       text-align: center;
       color: #718096;
       font-size: 0.9rem;
+      line-height: 1.8;
     }
     /* 动画 */
     @keyframes fadeIn {
@@ -169,21 +202,46 @@
       }
     }
     /* 响应式适配 */
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
       .header {
         flex-direction: column;
         gap: 20px;
         text-align: center;
       }
       .timeline-container {
-        padding: 20px;
+        padding: 40px 20px;
       }
       .timeline {
-        padding-left: 40px;
+        grid-template-columns: 70px 1fr;
+        gap: 15px;
       }
-      .year-label, .date-label {
-        width: 60px;
-        font-size: 0.8rem;
+      /* 手机端调整组内竖线位置 */
+      .year-group::before {
+        left: 45px;
+        top: 60px;
+        bottom: 10px;
+      }
+      .year-label {
+        grid-column: 1 / -1;
+        text-align: left;
+        margin-bottom: 15px;
+        padding-left: 60px;
+      }
+      .diary-item-wrapper {
+        grid-template-columns: 70px 1fr;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+      .date-label {
+        text-align: left;
+        padding-left: 10px;
+      }
+      .diary-dot {
+        left: 39px;
+      }
+      .diary-title {
+        grid-column: 2 / 3;
+        padding-left: 5px;
       }
     }
   </style>
@@ -200,73 +258,93 @@
     <div class="timeline">
       <!-- 2026年分组 -->
       <div class="year-group">
-        <span class="year-label">2026</span>
+        <div class="year-label">2026</div>
         
-        <div class="diary-item">
-          <span class="date-label">02/16</span>
+        <!-- 日记条目1 -->
+        <div class="diary-item-wrapper">
+          <div class="diary-dot"></div>
+          <div class="date-label">02/16</div>
           <a href="diary_detail_1.html" class="diary-title">乙巳年末</a>
         </div>
         
-        <div class="diary-item">
-          <span class="date-label">01/05</span>
+        <!-- 日记条目2 -->
+        <div class="diary-item-wrapper">
+          <div class="diary-dot"></div>
+          <div class="date-label">01/05</div>
           <a href="diary_detail_2.html" class="diary-title">年末特辑-我的年度订阅2025</a>
         </div>
       </div>
 
       <!-- 2025年分组 -->
       <div class="year-group">
-        <span class="year-label">2025</span>
+        <div class="year-label">2025</div>
         
-        <div class="diary-item">
-          <span class="date-label">12/21</span>
+        <!-- 日记条目3 -->
+        <div class="diary-item-wrapper">
+          <div class="diary-dot"></div>
+          <div class="date-label">12/21</div>
           <a href="diary_detail_3.html" class="diary-title">乙巳年冬至</a>
         </div>
         
-        <div class="diary-item">
-          <span class="date-label">11/20</span>
+        <!-- 日记条目4 -->
+        <div class="diary-item-wrapper">
+          <div class="diary-dot"></div>
+          <div class="date-label">11/20</div>
           <a href="diary_detail_4.html" class="diary-title">乙巳年秋分</a>
         </div>
         
-        <div class="diary-item">
-          <span class="date-label">10/29</span>
+        <!-- 日记条目5 -->
+        <div class="diary-item-wrapper">
+          <div class="diary-dot"></div>
+          <div class="date-label">10/29</div>
           <a href="diary_detail_5.html" class="diary-title">计划开餐厅了</a>
         </div>
         
-        <div class="diary-item">
-          <span class="date-label">09/30</span>
+        <!-- 日记条目6 -->
+        <div class="diary-item-wrapper">
+          <div class="diary-dot"></div>
+          <div class="date-label">09/30</div>
           <a href="diary_detail_6.html" class="diary-title">今年就不升级手机了吧</a>
         </div>
         
-        <div class="diary-item">
-          <span class="date-label">08/29</span>
+        <!-- 日记条目7 -->
+        <div class="diary-item-wrapper">
+          <div class="diary-dot"></div>
+          <div class="date-label">08/29</div>
           <a href="diary_detail_7.html" class="diary-title">聊聊这份工作</a>
         </div>
         
-        <div class="diary-item">
-          <span class="date-label">07/10</span>
+        <!-- 日记条目8 -->
+        <div class="diary-item-wrapper">
+          <div class="diary-dot"></div>
+          <div class="date-label">07/10</div>
           <a href="diary_detail_8.html" class="diary-title">乙巳年夏至</a>
         </div>
         
-        <div class="diary-item">
-          <span class="date-label">05/02</span>
+        <!-- 日记条目9 -->
+        <div class="diary-item-wrapper">
+          <div class="diary-dot"></div>
+          <div class="date-label">05/02</div>
           <a href="diary_detail_9.html" class="diary-title">乙巳年春分</a>
         </div>
         
-        <div class="diary-item">
-          <span class="date-label">04/02</span>
+        <!-- 日记条目10 -->
+        <div class="diary-item-wrapper">
+          <div class="diary-dot"></div>
+          <div class="date-label">04/02</div>
           <a href="diary_detail_10.html" class="diary-title">初识（一）</a>
         </div>
       </div>
-    </div>
 
-    <!-- 分页控件 -->
-    <div class="pagination">
-      <span class="current">1</span>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <span>...</span>
-      <a href="#">24</a>
-      <a href="#" class="next-page">下一页</a>
+      <!-- 分页控件 -->
+      <div class="pagination">
+        <span class="current">1</span>
+        <a href="diary_page_2.html">2</a>
+        <a href="diary_page_3.html">3</a>
+        <span>...</span>
+        <a href="diary_page_24.html">24</a>
+        <a href="diary_page_2.html" class="next-page">下一页</a>
+      </div>
     </div>
   </div>
 
