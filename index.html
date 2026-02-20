@@ -12,57 +12,131 @@
     }
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: #f0f4f8;
+      background: linear-gradient(135deg, #f0f4f8 0%, #e8f1f8 100%);
       color: #333;
       line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
     .container {
       max-width: 800px;
       margin: 0 auto;
       padding: 80px 20px;
       text-align: center;
+      /* 页面载入时的淡入效果 */
+      animation: fadeIn 1s ease-out;
     }
     h1 {
-      font-size: 36px;
-      margin-bottom: 10px;
-      color: #222;
+      font-size: clamp(2.2rem, 5vw, 3.5rem);
+      margin-bottom: 15px;
+      color: #2d3748;
+      /* 文字渐变效果 */
+      background: linear-gradient(90deg, #4299e1, #38b2ac);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      /* 文字轻微浮动动画 */
+      animation: float 3s ease-in-out infinite;
     }
     .subtitle {
-      color: #666;
-      font-size: 16px;
-      margin-bottom: 40px;
+      color: #718096;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      margin-bottom: 60px;
+      /* 文字间距增加可读性 */
+      letter-spacing: 0.5px;
     }
     .nav-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 25px;
       justify-content: center;
+      /* 导航栏轻微上浮，增加层次感 */
+      transform: translateY(-5px);
     }
     .nav-links a {
       display: inline-block;
-      padding: 12px 30px;
-      background: white;
-      color: #222;
+      padding: 15px 35px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #2d3748;
       text-decoration: none;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      transition: all 0.2s;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      /* 过渡效果让所有变化更丝滑 */
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      /* 字体优化 */
+      font-weight: 500;
+      font-size: 1rem;
+      /* 位置偏移修正 */
+      position: relative;
+      overflow: hidden;
     }
+    /* 鼠标悬停特效 */
     .nav-links a:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      transform: translateY(-6px) scale(1.05);
+      box-shadow: 0 8px 25px rgba(66, 153, 225, 0.2);
+      color: #4299e1;
+    }
+    /* 按钮点击波纹效果 */
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(66, 153, 225, 0.1);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.6s ease, height 0.6s ease;
+    }
+    .nav-links a:active::after {
+      width: 300px;
+      height: 300px;
+      opacity: 0;
+    }
+    /* 页面载入淡入动画 */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* 标题浮动动画 */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+    /* 响应式优化 */
+    @media (max-width: 600px) {
+      .nav-links {
+        gap: 15px;
+      }
+      .nav-links a {
+        padding: 12px 25px;
+        width: 100%;
+        max-width: 200px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>烨烨的个人小站</h1>
-    <p class="subtitle">欢迎来到我的个人空间 🎉</p >
+    <p class="subtitle">欢迎来到我的个人空间 🎉</p>
 
     <div class="nav-links">
-      <a href=" ">少年日记</a >
-      <a href="pet.html">洛克宠物图鉴</a >
-      <a href="about.html">关于我</a >
+      <a href="prose.html">散文</a>
+      <a href="diary.html">少年日记</a>
+      <a href="game.html">游戏</a>
+      <a href="music.html">音乐</a>
     </div>
   </div>
 </body>
