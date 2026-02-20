@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>日记- 烨烨的个人小站</title>
+  <title>少年日记 - 烨烨的个人小站</title>
   <style>
-    /* 复用主页面的基础样式，保证风格统一 */
+    /* 基础样式复用主页面风格 */
     * {
       margin: 0;
       padding: 0;
@@ -19,10 +19,10 @@
       min-height: 100vh;
       padding: 40px 20px;
     }
-    /* 头部导航栏 - 包含返回首页按钮 */
+    /* 头部导航 */
     .header {
-      max-width: 800px;
-      margin: 0 auto 40px;
+      max-width: 900px;
+      margin: 0 auto 60px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -48,38 +48,116 @@
       background-clip: text;
       color: transparent;
     }
-    /* 内容容器 */
-    .content-container {
-      max-width: 800px;
+    /* 时间轴容器 */
+    .timeline-container {
+      max-width: 900px;
       margin: 0 auto;
       background: rgba(255, 255, 255, 0.85);
       border-radius: 16px;
-      padding: 30px;
+      padding: 40px;
       box-shadow: 0 6px 20px rgba(0,0,0,0.08);
       animation: fadeIn 0.8s ease-out;
     }
-    /* 散文内容样式 */
-    .prose-item {
+    /* 时间轴核心样式 */
+    .timeline {
+      position: relative;
+      padding-left: 60px;
+    }
+    /* 时间轴竖线 */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: #e2e8f0;
+    }
+    /* 年份分组 */
+    .year-group {
       margin-bottom: 40px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid #e2e8f0;
     }
-    .prose-title {
-      font-size: 1.5rem;
-      color: #2d3748;
-      margin-bottom: 15px;
+    .year-label {
+      position: absolute;
+      left: -40px;
+      font-weight: 600;
+      color: #718096;
+      width: 80px;
+      text-align: right;
+      padding-right: 10px;
     }
-    .prose-content {
+    /* 日记条目 */
+    .diary-item {
+      position: relative;
+      margin-bottom: 25px;
+      padding-bottom: 10px;
+    }
+    /* 时间点圆点 */
+    .diary-item::before {
+      content: '';
+      position: absolute;
+      left: -46px;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #4299e1;
+      box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.1);
+    }
+    /* 日期标签 */
+    .date-label {
+      position: absolute;
+      left: -40px;
+      top: 0;
+      font-size: 0.9rem;
+      color: #94a3b8;
+      width: 80px;
+      text-align: right;
+      padding-right: 10px;
+    }
+    /* 日记标题链接 */
+    .diary-title {
+      color: #4299e1;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: all 0.2s ease;
+    }
+    .diary-title:hover {
+      color: #2563eb;
+      text-decoration: underline;
+    }
+    /* 分页样式 */
+    .pagination {
+      margin-top: 50px;
+      text-align: center;
+    }
+    .pagination a, .pagination span {
+      display: inline-block;
+      padding: 8px 15px;
+      margin: 0 5px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 6px;
       color: #4a5568;
-      line-height: 1.8;
-      text-align: justify;
+      text-decoration: none;
+      transition: all 0.2s ease;
     }
-    .prose-meta {
+    .pagination a:hover {
+      background: #4299e1;
+      color: white;
+    }
+    .pagination .current {
+      background: #4299e1;
+      color: white;
+    }
+    /* 页脚统计信息 */
+    .footer-stats {
+      max-width: 900px;
+      margin: 30px auto 0;
+      text-align: center;
       color: #718096;
       font-size: 0.9rem;
-      margin-top: 10px;
     }
-    /* 通用动画 */
+    /* 动画 */
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -97,8 +175,15 @@
         gap: 20px;
         text-align: center;
       }
-      .content-container {
+      .timeline-container {
         padding: 20px;
+      }
+      .timeline {
+        padding-left: 40px;
+      }
+      .year-label, .date-label {
+        width: 60px;
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -107,34 +192,88 @@
   <!-- 头部导航 -->
   <div class="header">
     <a href="index.html" class="back-home">← 返回首页</a>
-    <h1 class="page-title">日记</h1>
+    <h1 class="page-title">少年日记</h1>
   </div>
 
-  <!-- 主要内容 -->
-  <div class="content-container">
-    <!-- 第一篇散文 -->
-    <div class="prose-item">
-      <h2 class="prose-title">春日随笔</h2>
-      <div class="prose-content">
-        风拂过窗台，带着三月的温柔。楼下的玉兰开了，白的像雪，粉的像霞，空气里都是淡淡的甜香。
-        总觉得春天是最温柔的季节，不似夏日燥热，不似秋日萧瑟，也不似冬日凛冽。
-        坐在窗前，泡一杯清茶，看窗外的光影流转，日子慢下来，心也静下来。
-        生活本就该这样，有细碎的美好，有温柔的日常。
+  <!-- 时间轴内容容器 -->
+  <div class="timeline-container">
+    <div class="timeline">
+      <!-- 2026年分组 -->
+      <div class="year-group">
+        <span class="year-label">2026</span>
+        
+        <div class="diary-item">
+          <span class="date-label">02/16</span>
+          <a href="diary_detail_1.html" class="diary-title">乙巳年末</a>
+        </div>
+        
+        <div class="diary-item">
+          <span class="date-label">01/05</span>
+          <a href="diary_detail_2.html" class="diary-title">年末特辑-我的年度订阅2025</a>
+        </div>
       </div>
-      <div class="prose-meta">发布于 2026-02-20 | 烨烨</div>
+
+      <!-- 2025年分组 -->
+      <div class="year-group">
+        <span class="year-label">2025</span>
+        
+        <div class="diary-item">
+          <span class="date-label">12/21</span>
+          <a href="diary_detail_3.html" class="diary-title">乙巳年冬至</a>
+        </div>
+        
+        <div class="diary-item">
+          <span class="date-label">11/20</span>
+          <a href="diary_detail_4.html" class="diary-title">乙巳年秋分</a>
+        </div>
+        
+        <div class="diary-item">
+          <span class="date-label">10/29</span>
+          <a href="diary_detail_5.html" class="diary-title">计划开餐厅了</a>
+        </div>
+        
+        <div class="diary-item">
+          <span class="date-label">09/30</span>
+          <a href="diary_detail_6.html" class="diary-title">今年就不升级手机了吧</a>
+        </div>
+        
+        <div class="diary-item">
+          <span class="date-label">08/29</span>
+          <a href="diary_detail_7.html" class="diary-title">聊聊这份工作</a>
+        </div>
+        
+        <div class="diary-item">
+          <span class="date-label">07/10</span>
+          <a href="diary_detail_8.html" class="diary-title">乙巳年夏至</a>
+        </div>
+        
+        <div class="diary-item">
+          <span class="date-label">05/02</span>
+          <a href="diary_detail_9.html" class="diary-title">乙巳年春分</a>
+        </div>
+        
+        <div class="diary-item">
+          <span class="date-label">04/02</span>
+          <a href="diary_detail_10.html" class="diary-title">初识（一）</a>
+        </div>
+      </div>
     </div>
 
-    <!-- 第二篇散文 -->
-    <div class="prose-item">
-      <h2 class="prose-title">雨夜的思念</h2>
-      <div class="prose-content">
-        夜雨敲窗，淅淅沥沥。这样的夜晚，总容易想起一些人，一些事。
-        那些逝去的时光，像老电影一样在脑海里回放，有欢笑，有遗憾，也有温暖。
-        思念是一种很奇妙的情绪，不浓烈，却绵长，像这雨夜的雨丝，轻轻落在心底。
-        愿远方的人，都安好。
-      </div>
-      <div class="prose-meta">发布于 2026-02-18 | 烨烨</div>
+    <!-- 分页控件 -->
+    <div class="pagination">
+      <span class="current">1</span>
+      <a href="#">2</a>
+      <a href="#">3</a>
+      <span>...</span>
+      <a href="#">24</a>
+      <a href="#" class="next-page">下一页</a>
     </div>
+  </div>
+
+  <!-- 页脚统计信息 -->
+  <div class="footer-stats">
+    ©2014-2026 烨烨<br>
+    PV:72031 UV:70124
   </div>
 </body>
 </html>
