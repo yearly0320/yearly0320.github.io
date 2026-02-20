@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>散文 - 烨烨的个人小站</title>
+  <style>
+    /* 复用主页面的基础样式，保证风格统一 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #f0f4f8 0%, #e8f1f8 100%);
+      color: #333;
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    /* 头部导航栏 - 包含返回首页按钮 */
+    .header {
+      max-width: 800px;
+      margin: 0 auto 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .back-home {
+      padding: 10px 25px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #4299e1;
+      text-decoration: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+    .back-home:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(66, 153, 225, 0.15);
+    }
+    .page-title {
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      background: linear-gradient(90deg, #4299e1, #38b2ac);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    /* 内容容器 */
+    .content-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.85);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      animation: fadeIn 0.8s ease-out;
+    }
+    /* 散文内容样式 */
+    .prose-item {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .prose-title {
+      font-size: 1.5rem;
+      color: #2d3748;
+      margin-bottom: 15px;
+    }
+    .prose-content {
+      color: #4a5568;
+      line-height: 1.8;
+      text-align: justify;
+    }
+    .prose-meta {
+      color: #718096;
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+    /* 通用动画 */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* 响应式适配 */
+    @media (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+      }
+      .content-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 头部导航 -->
+  <div class="header">
+    <a href="index.html" class="back-home">← 返回首页</a>
+    <h1 class="page-title">散文</h1>
+  </div>
+
+  <!-- 主要内容 -->
+  <div class="content-container">
+    <!-- 第一篇散文 -->
+    <div class="prose-item">
+      <h2 class="prose-title">春日随笔</h2>
+      <div class="prose-content">
+        风拂过窗台，带着三月的温柔。楼下的玉兰开了，白的像雪，粉的像霞，空气里都是淡淡的甜香。
+        总觉得春天是最温柔的季节，不似夏日燥热，不似秋日萧瑟，也不似冬日凛冽。
+        坐在窗前，泡一杯清茶，看窗外的光影流转，日子慢下来，心也静下来。
+        生活本就该这样，有细碎的美好，有温柔的日常。
+      </div>
+      <div class="prose-meta">发布于 2026-02-20 | 烨烨</div>
+    </div>
+
+    <!-- 第二篇散文 -->
+    <div class="prose-item">
+      <h2 class="prose-title">雨夜的思念</h2>
+      <div class="prose-content">
+        夜雨敲窗，淅淅沥沥。这样的夜晚，总容易想起一些人，一些事。
+        那些逝去的时光，像老电影一样在脑海里回放，有欢笑，有遗憾，也有温暖。
+        思念是一种很奇妙的情绪，不浓烈，却绵长，像这雨夜的雨丝，轻轻落在心底。
+        愿远方的人，都安好。
+      </div>
+      <div class="prose-meta">发布于 2026-02-18 | 烨烨</div>
+    </div>
+  </div>
+</body>
+</html>
