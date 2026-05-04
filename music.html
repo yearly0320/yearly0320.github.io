@@ -153,12 +153,28 @@
 </div>
   </div>
   <div class="site-stats">
-    <span>本站访客 <strong><span id="busuanzi_value_site_uv">--</span></strong> 人</span>
+    <span>本设备访客 <strong><span data-local-stat="site-uv">--</span></strong> 人</span>
     <span class="stat-divider">|</span>
-    <span>总浏览量 <strong><span id="busuanzi_value_site_pv">--</span></strong> 次</span>
+    <span>本设备总浏览 <strong><span data-local-stat="site-pv">--</span></strong> 次</span>
     <span class="stat-divider">|</span>
-    <span>本页浏览 <strong><span id="busuanzi_value_page_pv">--</span></strong> 次</span>
+    <span>本设备本页浏览 <strong><span data-local-stat="page-pv">--</span></strong> 次</span>
   </div>
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script>
+    (function () {
+      var path = window.location.pathname || '/';
+      if (path.endsWith('/')) path += 'index.html';
+      var sitePvKey = 'yearly0320_site_pv';
+      var pagePvKey = 'yearly0320_page_pv_' + path;
+      var visitorKey = 'yearly0320_site_visitor';
+      var sitePv = Number(localStorage.getItem(sitePvKey) || 0) + 1;
+      var pagePv = Number(localStorage.getItem(pagePvKey) || 0) + 1;
+      localStorage.setItem(sitePvKey, String(sitePv));
+      localStorage.setItem(pagePvKey, String(pagePv));
+      if (!localStorage.getItem(visitorKey)) localStorage.setItem(visitorKey, '1');
+      document.querySelectorAll('[data-local-stat="site-uv"]').forEach(function (el) { el.textContent = localStorage.getItem(visitorKey); });
+      document.querySelectorAll('[data-local-stat="site-pv"]').forEach(function (el) { el.textContent = sitePv; });
+      document.querySelectorAll('[data-local-stat="page-pv"]').forEach(function (el) { el.textContent = pagePv; });
+    })();
+  </script>
 </body>
 </html>
