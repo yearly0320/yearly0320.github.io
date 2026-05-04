@@ -101,6 +101,36 @@
         padding: 20px;
       }
     }
+    .site-stats {
+      max-width: 1000px;
+      margin: 36px auto 0;
+      padding: 18px 22px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+      color: #4a5568;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+    .site-stats span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .site-stats strong {
+      color: #2d3748;
+      font-weight: 700;
+    }
+    .site-stats .stat-divider {
+      color: #cbd5e0;
+    }
   </style>
 </head>
 <body>
@@ -136,5 +166,13 @@
       <div class="prose-meta">发布于 2026-02-18 | 烨烨</div>
     </div>
   </div>
+  <div class="site-stats">
+    <span>本站访客 <strong><span id="busuanzi_value_site_uv">--</span></strong> 人</span>
+    <span class="stat-divider">|</span>
+    <span>总浏览量 <strong><span id="busuanzi_value_site_pv">--</span></strong> 次</span>
+    <span class="stat-divider">|</span>
+    <span>本页浏览 <strong><span id="busuanzi_value_page_pv">--</span></strong> 次</span>
+  </div>
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 </body>
 </html>
